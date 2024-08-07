@@ -1,4 +1,4 @@
-import { View, ImageBackground, StyleSheet, SafeAreaView } from "react-native";
+import { View, ImageBackground, StyleSheet, SafeAreaView ,Image} from "react-native";
 import React, { useState } from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
 import { ScreenSize } from "../../constants/size";
