@@ -4,6 +4,7 @@ import background_image from "../../assets/images/Game/scene.jpg";
 import { ScreenSize } from "../../constants/size";
 import { scale } from "@shopify/react-native-skia";
 import Bird from "../Bird/Bird";
+import ScoreBoard from "../ScoreBoard/ScoreBoard";
 
 
 const GameArea = () => {
@@ -20,7 +21,7 @@ const GameArea = () => {
         }}
       />
       <Bird />
-      
+      <ScoreBoard/>
     </View>
   );
 };
