@@ -7,21 +7,48 @@ import Animated, {
   useSharedValue,
   withSequence,
   withTiming,
+  runOnJS,
 } from "react-native-reanimated";
 
 const Bird = () => {
-  const offsetY = useSharedValue(0);
+  const offset = useSharedValue({
+    x: 0,
+    y: 0,
+  });
+
+  const start = useSharedValue({ x: 0, y: 0 });
   const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ translateY: offsetY.value }],
+    transform: [{ translateY: offset.value.y }, { translateX: offset.value.x }],
   }));
   const gesture = Gesture.Pan()
     .onBegin((event) => {})
     .onEnd((event) => {
-      offsetY.value = withSequence(
-        withTiming(event.translationY, { duration: 1000 }),
-        withTiming(0, { duration: 1000 })
+      // tangent value for projection angle
+      const tangent = event.translationY / event.translationX;
+      const projectionAngle = Math.atan(tangent);
+      console.log(projectionAngle, event.translationY, event.translationX);
+
+      // set up threshold value for x
+      let x_distance = Math.abs(event.translationX) * 4;
+
+      offset.value = withSequence(
+        withTiming(
+          {
+            x: x_distance / 2 + offset.value.x,
+            y: -Math.abs(x_distance * Math.sin(projectionAngle)),
+          },
+          { duration: 1000 }
+        ),
+        withTiming(
+          {
+            x: x_distance,
+            y: 0,
+          },
+          { duration: 1000 }
+        )
       );
     });
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View

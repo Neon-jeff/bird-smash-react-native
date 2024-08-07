@@ -2,9 +2,7 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
 import { ScreenSize } from "../../constants/size";
-import { scale } from "@shopify/react-native-skia";
 import Bird from "../Bird/Bird";
-
 
 const GameArea = () => {
   return (
@@ -13,14 +11,13 @@ const GameArea = () => {
         source={background_image}
         style={{
           position: "absolute",
-          height: ScreenSize.height,
-          width: ScreenSize.width,
+          height: "100%",
+          width: "100%",
           resizeMode: "cover",
           left: 0,
         }}
       />
       <Bird />
-      
     </View>
   );
 };
