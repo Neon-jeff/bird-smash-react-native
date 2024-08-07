@@ -5,7 +5,6 @@ import { ScreenSize } from "../../constants/size";
 import { scale } from "@shopify/react-native-skia";
 import Bird from "../Bird/Bird";
 
-
 const GameArea = () => {
   return (
     <View style={{ flex: 1, flexDirection: "row" }}>
@@ -20,7 +19,6 @@ const GameArea = () => {
         }}
       />
       <Bird />
-      
     </View>
   );
 };
