@@ -11,6 +11,9 @@ import { ScreenSize } from "../../constants/size";
 import Bird from "../Bird/Bird";
 import Obstacle from "../Obstacle/Obstacle";
 import { useSharedValue } from "react-native-reanimated";
+import ScoreBoard from "../ScoreBoard/ScoreBoard";
+
+
 const GameArea = () => {
   const [score, setScore] = useState(0);
   const hasCollided = useSharedValue(false);
@@ -35,6 +38,7 @@ const GameArea = () => {
       />
       <Bird />
       <Obstacle position={{ x: 500, y: 100 }} />
+      {/* <ScoreBoard /> */}
     </View>
   );
 };

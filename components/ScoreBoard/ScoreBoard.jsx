@@ -1,28 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const Scoreboard = ({ score }) => {
+const ScoreBoard = ({ fetchScores }) => {
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+
+  useEffect(() => {
+    async function getScores() {
+      const scores = await fetchScores();
+      setScore(scores.score);
+      setHighScore(scores.highScore);
+    }
+    getScores();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.scoreText}>Score: {score}</Text>
+      <Text style={styles.title}>Scoreboard</Text>
+      <View style={styles.scoresContainer}>
+        <View style={styles.scoreBox}>
+          <Text style={styles.label}>Score</Text>
+          <Text style={styles.score}>{score}</Text>
+        </View>
+        <View style={styles.scoreBox}>
+          <Text style={styles.label}>High Score</Text>
+          <Text style={styles.score}>{highScore}</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 10,
-    borderRadius: 5,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: '#ffde00',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    alignItems: 'center',
+    width: '90%',
+    marginTop: 50,
   },
-  scoreText: {
-    color: '#fff',
-    fontSize: 20,
+  title: {
+    fontSize: 30,
     fontWeight: 'bold',
+    color: '#d22828',
+    marginBottom: 20,
+  },
+  scoresContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  scoreBox: {
+    width: '45%',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#d22828',
+    marginBottom: 5,
+  },
+  score: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
   },
 });
 
-export default Scoreboard;
+export default ScoreBoard;
