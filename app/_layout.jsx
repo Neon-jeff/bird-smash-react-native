@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text,Alert } from "react-native";
 import React, { useEffect } from "react";
 import { Slot } from "expo-router";
 import * as Orientation from "expo-screen-orientation";

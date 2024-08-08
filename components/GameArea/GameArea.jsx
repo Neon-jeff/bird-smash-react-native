@@ -1,9 +1,15 @@
-import { View, ImageBackground, StyleSheet, SafeAreaView ,Image} from "react-native";
+import {
+  View,
+  ImageBackground,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
 import { ScreenSize } from "../../constants/size";
 import Bird from "../Bird/Bird";
-
+import Obstacle from "../Obstacle/Obstacle";
 const GameArea = () => {
   const [score, setScore] = useState(0);
 
@@ -25,6 +31,10 @@ const GameArea = () => {
         }}
       />
       <Bird />
+      <Obstacle position={{ x: 400, y: 300 }} />
+      <Obstacle position={{ x: 400, y: 300-50 }} />
+      <Obstacle position={{ x: 400, y: 300-100 }} />
+      <Obstacle position={{ x: 400, y: 300-150 }} />
     </View>
   );
 };
@@ -35,12 +45,12 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-    alignItems: 'center',
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
   },
   birdContainer: {
-    position: 'absolute',
+    position: "absolute",
     left: 50,
     bottom: 100,
   },
