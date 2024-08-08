@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Text,
 } from "react-native";
 import React, { useState } from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
@@ -32,9 +33,12 @@ const GameArea = () => {
       />
       <Bird />
       <Obstacle position={{ x: 400, y: 300 }} />
-      <Obstacle position={{ x: 400, y: 300-50 }} />
-      <Obstacle position={{ x: 400, y: 300-100 }} />
-      <Obstacle position={{ x: 400, y: 300-150 }} />
+      <Obstacle position={{ x: 400, y: 300 - 50 }} />
+      <Obstacle position={{ x: 400, y: 300 - 100 }} />
+      <Obstacle position={{ x: 400, y: 300 - 150 }} />
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>Score: {score}</Text>
+      </View>
     </View>
   );
 };
@@ -53,6 +57,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 50,
     bottom: 100,
+  },
+  scoreContainer: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+  },
+  scoreText: {
+    fontSize: 24,
+    color: "white",
   },
 });
 
