@@ -9,12 +9,13 @@ import Animated, {
   runOnJS,
   useFrameCallback,
   cancelAnimation,
+  useAnimatedRef,
+  measure,
 } from "react-native-reanimated";
 import { ScreenSize } from "../../constants/size";
 
 const Bird = ({ impact }) => {
-
-
+  const BirdRef = useAnimatedRef();
   const offsetX = useSharedValue(0); // Shared value for X-axis
   const offsetY = useSharedValue(0); // Shared value for Y-axis
   const projectTileRange = useSharedValue(0);
@@ -30,13 +31,17 @@ const Bird = ({ impact }) => {
   useFrameCallback((frameInfo) => {
     const { timeSincePreviousFrame: dt, timeSinceFirstFrame: total_time } =
       frameInfo;
-
+    const measurement = measure(BirdRef);
+ 
+    
     if (dt == null || pressed.value == false) {
       return;
     }
     const total_distance = projectTileRange.value;
 
     if (offsetX.value >= total_distance) {
+      console.log(measurement);
+      
       pressed.value = false;
       offsetX.value = withTiming(0, { duration: 1000 });
       projectTileRange.value = 0;
@@ -77,15 +82,15 @@ const Bird = ({ impact }) => {
       console.log(projectTileRange.value, maxRange);
 
       pressed.value = true;
-   
     })
     .onFinalize((event) => {});
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
+        ref={BirdRef}
         style={[
-          { alignSelf: "flex-end", paddingBottom: 20, paddingLeft: 50 },
+          { alignSelf: "flex-end", marginBottom: 20, marginLeft: 50 },
           animatedStyles,
         ]}
       >
