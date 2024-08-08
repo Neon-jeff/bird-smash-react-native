@@ -1,20 +1,23 @@
-import { View, ImageBackground, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  ImageBackground,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
+import { ScreenSize } from "../../constants/size";
 import Bird from "../Bird/Bird";
 import Obstacle from "../Obstacle/Obstacle";
-import Scoreboard from "../ScoreBoard/ScoreBoard";
+import { useSharedValue } from "react-native-reanimated";
+import ScoreBoard from "../ScoreBoard/ScoreBoard";
 
-const obstacles = [
-  { position: { x: 550, y: 160 } },
-  { position: { x: 550, y: 200 } },
-  { position: { x: 550, y: 240 } },
-  // Add more obstacles with different positions as needed
-];
 
 const GameArea = () => {
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const hasCollided = useSharedValue(false);
+  const obstaclePosition = useSharedValue({});
 
   // Example function to increase score (this could be tied to game logic)
   const increaseScore = () => {
@@ -22,17 +25,21 @@ const GameArea = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground source={background_image} style={styles.backgroundImage}>
-        <View style={styles.birdContainer}>
-          <Bird />
-        </View>
-        {obstacles.map((obs, index) => (
-          <Obstacle key={index} position={obs.position} />
-        ))}
-        <Scoreboard score={score} highScore={highScore} />
-      </ImageBackground>
-    </SafeAreaView>
+    <View style={{ flex: 1, flexDirection: "row" }}>
+      <Image
+        source={background_image}
+        style={{
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          resizeMode: "cover",
+          left: 0,
+        }}
+      />
+      <Bird />
+      <Obstacle position={{ x: 500, y: 100 }} />
+      {/* <ScoreBoard /> */}
+    </View>
   );
 };
 
@@ -42,12 +49,12 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-    alignItems: 'center',
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
   },
   birdContainer: {
-    position: 'absolute',
+    position: "absolute",
     left: 50,
     bottom: 100,
   },

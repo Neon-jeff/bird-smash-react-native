@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text,Alert } from "react-native";
 import React, { useEffect } from "react";
 import { Slot } from "expo-router";
 import * as Orientation from "expo-screen-orientation";
 import * as NavigationBar from "expo-navigation-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Updates from "expo-updates";
+import { Stack } from "expo-router";
 const RootLayout = () => {
   useEffect(() => {
     onFetchUpdateAsync();
@@ -42,7 +43,10 @@ const RootLayout = () => {
   }
   return (
     <GestureHandlerRootView>
-      <Slot />
+      <Stack screenOptions={{ headerShown: false }} >
+        <Stack.Screen name="game" />
+        <Stack.Screen name="index" />
+      </Stack>
     </GestureHandlerRootView>
   );
 };

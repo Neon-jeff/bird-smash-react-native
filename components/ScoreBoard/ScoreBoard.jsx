@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const ScoreBoard = ({ score, highScore }) => {
+const ScoreBoard = ({ fetchScores }) => {
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+
+  useEffect(() => {
+    async function getScores() {
+      const scores = await fetchScores();
+      setScore(scores.score);
+      setHighScore(scores.highScore);
+    }
+    getScores();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Scoreboard</Text>
