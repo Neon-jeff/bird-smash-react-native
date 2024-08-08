@@ -41,7 +41,7 @@ const Obstacle = ({ position, thickness, level, hasCollided }) => {
             {[...Array(item).keys()].map((subItem) => (
               <View
                 key={subItem}
-                style={[{ height: 50, width: 50, backgroundColor: "green" },animatedStyles]}
+                style={[{ height: 50, width: 50 },animatedStyles]}
               >
                 <Image
                   resizeMode="cover"
