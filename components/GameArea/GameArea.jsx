@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Text,
 } from "react-native";
 import React, { useState } from "react";
 import background_image from "../../assets/images/Game/scene.jpg";
@@ -53,6 +54,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 50,
     bottom: 100,
+  },
+  scoreContainer: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+  },
+  scoreText: {
+    fontSize: 24,
+    color: "white",
   },
 });
 

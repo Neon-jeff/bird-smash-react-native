@@ -34,6 +34,7 @@ const Obstacle = ({ position, thickness, level, hasCollided }) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
+    position: "absolute",
   },
   image: {
     height: "100%",
