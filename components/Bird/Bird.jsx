@@ -9,17 +9,16 @@ import Animated, {
   runOnJS,
   useFrameCallback,
   cancelAnimation,
+  useAnimatedRef,
+  measure,
 } from "react-native-reanimated";
+import { ScreenSize } from "../../constants/size";
 
-const Bird = () => {
-  // ANIMATION PERIOD IN MILLISECONDS
-  const ANIMATION_PERIOD = 1000;
-  // DAMPING FACTOR
-  const DAMPINGFACTOR = 0.5;
-  // Gravity
-  const GRAVITY = 9.8;
+const Bird = ({ impact }) => {
+  const BirdRef = useAnimatedRef();
   const offsetX = useSharedValue(0); // Shared value for X-axis
   const offsetY = useSharedValue(0); // Shared value for Y-axis
+  const projectTileRange = useSharedValue(0);
 
   const ProjectionAngle = useSharedValue(0);
   const pressed = useSharedValue(false);
@@ -32,18 +31,26 @@ const Bird = () => {
   useFrameCallback((frameInfo) => {
     const { timeSincePreviousFrame: dt, timeSinceFirstFrame: total_time } =
       frameInfo;
-
+    const measurement = measure(BirdRef);
+ 
+    
     if (dt == null || pressed.value == false) {
       return;
     }
-    const total_distance = 400;
+    const total_distance = projectTileRange.value;
+
     if (offsetX.value >= total_distance) {
+      console.log(measurement);
+      
       pressed.value = false;
+      offsetX.value = withTiming(0, { duration: 1000 });
+      projectTileRange.value = 0;
       return;
     }
-    offsetX.value += 2;
-    offsetY.value = (offsetX.value ** 2 - total_distance * offsetX.value) / 200;
-    console.log(offsetX.value, offsetY.value);
+    offsetX.value += 5;
+    offsetY.value =
+      (1.5 * (offsetX.value ** 2 - total_distance * offsetX.value)) /
+      projectTileRange.value;
   });
 
   const animatedStyles = useAnimatedStyle(() => ({
@@ -64,55 +71,26 @@ const Bird = () => {
     // })
     .onEnd((event) => {
       // calculate projecton angle
-      const _projectionAngle = Math.atan(
-        event.translationY / event.translationX
+      const maxRange = 0.8 * Math.max(ScreenSize.width, ScreenSize.height);
+      projectTileRange.value = Math.abs(
+        Math.round((event.translationX * 10) / 100) * 100
       );
-      ProjectionAngle.value = _projectionAngle;
-      Velocity.value = {
-        vx: event.velocityX,
-        vy: event.velocityY,
-      };
+      if (projectTileRange.value > maxRange) {
+        projectTileRange.value = Math.round(maxRange / 100) * 100;
+      }
+      projectTileRange.value = Math.abs(projectTileRange.value);
+      console.log(projectTileRange.value, maxRange);
+
       pressed.value = true;
-
-      // Calculate the distance and velocity of the swipe
-      const swipeDistance = Math.sqrt(
-        event.translationX ** 2 + event.translationY ** 2
-      );
-
-      const peakHeight = swipeDistance * 0.5; // Height of the peak
-      const forwardDistance = swipeDistance * 1.5; // Forward distance
-
-      // // Create a smooth, parabolic trajectory
-      // offsetX.value = withSequence(
-      //   withTiming(forwardDistance, {
-      //     duration: 1000, // Time to move forward
-      //   }),
-      //   withTiming(forwardDistance * 2, {
-      //     duration: 800, // Continue moving forward
-      //   }),
-      //   withTiming(0, {
-      //     duration: 800, // Return to starting point
-      //   })
-      // );
-
-      // offsetY.value = withSequence(
-      //   withTiming(-peakHeight, {
-      //     duration: 1000, // Time to reach the peak
-      //     easing: (t) => t * (2 - t), // Easing function for smooth ascent
-      //   }),
-      //   withTiming(0, {
-      //     duration: 1000, // Time to return to starting point
-      //     easing: (t) => t * (2 - t), // Easing function for smooth descent
-      //   })
-      // );
     })
     .onFinalize((event) => {});
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
+        ref={BirdRef}
         style={[
-          { alignSelf: "flex-end", paddingBottom: 20, paddingLeft: 50 },
+          { alignSelf: "flex-end", marginBottom: 20, marginLeft: 50 },
           animatedStyles,
         ]}
       >

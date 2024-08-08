@@ -11,8 +11,13 @@ import background_image from "../../assets/images/Game/scene.jpg";
 import { ScreenSize } from "../../constants/size";
 import Bird from "../Bird/Bird";
 import Obstacle from "../Obstacle/Obstacle";
+import { useSharedValue } from "react-native-reanimated";
+import ScoreBoard from "../ScoreBoard/ScoreBoard";
+
 const GameArea = () => {
   const [score, setScore] = useState(0);
+  const hasCollided = useSharedValue(false);
+  const obstaclePosition = useSharedValue({ x: 500, y: 100 });
 
   // Example function to increase score (this could be tied to game logic)
   const increaseScore = () => {
@@ -21,6 +26,7 @@ const GameArea = () => {
 
   return (
     <View style={{ flex: 1, flexDirection: "row" }}>
+      <ScoreBoard />
       <Image
         source={background_image}
         style={{
@@ -32,13 +38,8 @@ const GameArea = () => {
         }}
       />
       <Bird />
-      <Obstacle position={{ x: 400, y: 300 }} />
-      <Obstacle position={{ x: 400, y: 300 - 50 }} />
-      <Obstacle position={{ x: 400, y: 300 - 100 }} />
-      <Obstacle position={{ x: 400, y: 300 - 150 }} />
-      <View style={styles.scoreContainer}>
-        <Text style={styles.scoreText}>Score: {score}</Text>
-      </View>
+      <Obstacle position={obstaclePosition} hasCollided={hasCollided} />
+      {/* <ScoreBoard /> */}
     </View>
   );
 };
