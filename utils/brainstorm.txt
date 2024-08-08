@@ -1,0 +1,24 @@
+const bird={
+    image:'',
+    impact:100
+}
+
+
+// sling movement configs 
+
+let x=40
+
+const total_distance=40 * gesture_displace_x
+
+
+// equation of a parabola?
+// y=ax^2 + bx + c (quadratic equation which inscribes a parabola)
+
+// points of intersection are the origin and total horizontal distance
+
+translation_y_equation= x^2 + total_distance * x
+
+the parabolic motion is just a graphical plot of the equation above, starting from x =0, total_distance/2, total_distance
+
+y is maximum at x= total_distance/2
+
