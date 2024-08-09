@@ -45,7 +45,6 @@ const GameArea = () => {
         setHighScore={setHighScore}
       />
       <Obstacle position={obstaclePosition} hasCollided={hasCollided} />
-      {/* <ScoreBoard /> */}
     </View>
   );
 };
