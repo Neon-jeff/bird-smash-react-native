@@ -14,7 +14,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { ScreenSize } from "../../constants/size";
 
-const Bird = ({ impact }) => {
+const Bird = ({
+  impact,
+  obstaclePostion,
+  hasCollided,
+  setScore,
+  setHighScore,
+}) => {
   const BirdRef = useAnimatedRef();
   const offsetX = useSharedValue(0); // Shared value for X-axis
   const offsetY = useSharedValue(0); // Shared value for Y-axis
@@ -32,20 +38,26 @@ const Bird = ({ impact }) => {
     const { timeSincePreviousFrame: dt, timeSinceFirstFrame: total_time } =
       frameInfo;
     const measurement = measure(BirdRef);
- 
-    
+
     if (dt == null || pressed.value == false) {
       return;
     }
     const total_distance = projectTileRange.value;
 
     if (offsetX.value >= total_distance) {
-      console.log(measurement);
-      
       pressed.value = false;
       offsetX.value = withTiming(0, { duration: 1000 });
       projectTileRange.value = 0;
+      hasCollided.value = false;
       return;
+    }
+
+    if (
+      measurement.pageX >= obstaclePostion.value.x &&
+      measurement.pageY >= obstaclePostion.value.y
+    ) {
+      hasCollided.value = true;
+      runOnJS(setScore)(1000)
     }
     offsetX.value += 5;
     offsetY.value =

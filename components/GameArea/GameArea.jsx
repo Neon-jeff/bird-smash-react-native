@@ -16,6 +16,7 @@ import ScoreBoard from "../ScoreBoard/ScoreBoard";
 
 const GameArea = () => {
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
   const hasCollided = useSharedValue(false);
   const obstaclePosition = useSharedValue({ x: 500, y: 100 });
 
@@ -26,7 +27,7 @@ const GameArea = () => {
 
   return (
     <View style={{ flex: 1, flexDirection: "row" }}>
-      <ScoreBoard />
+      <ScoreBoard score={score} highScore={highScore} />
       <Image
         source={background_image}
         style={{
@@ -37,7 +38,12 @@ const GameArea = () => {
           left: 0,
         }}
       />
-      <Bird />
+      <Bird
+        obstaclePostion={obstaclePosition}
+        hasCollided={hasCollided}
+        setScore={setScore}
+        setHighScore={setHighScore}
+      />
       <Obstacle position={obstaclePosition} hasCollided={hasCollided} />
       {/* <ScoreBoard /> */}
     </View>

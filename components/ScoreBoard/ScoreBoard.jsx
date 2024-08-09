@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const ScoreBoard = () => {
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+const ScoreBoard = ({ score, highScore }) => {
+
 
   // useEffect(() => {
   //   async function getScores() {
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 5,
     alignItems: "center",
-    right:20,
+    right: 20,
     position: "absolute",
     top: 0,
     zIndex: 1,
